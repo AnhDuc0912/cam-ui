@@ -1,5 +1,5 @@
 const video = document.getElementById('video');
-const canvas = document.getElementById('canvas');
+const canvas = document.createElement('canvas');
 const context = canvas.getContext('2d');
 const captureButton = document.getElementById('capture');
 const switchCameraButton = document.getElementById('switch-camera');
@@ -12,20 +12,22 @@ let currentStream;
 let currentCameraIndex = 0;
 const cameras = [];
 
-// Khi nhấn nút "Bật camera", hiển thị camera và video
-navigator.mediaDevices.enumerateDevices()
-    .then(devices => {
-        const videoDevices = devices.filter(device => device.kind === 'videoinput');
-        if (videoDevices.length > 0) {
-            cameras.push(...videoDevices); // Lưu các camera vào mảng
-            startCamera(cameras[currentCameraIndex].deviceId);
-        } else {
-            console.error('No video devices found.');
-        }
-    })
-    .catch(error => {
-        console.error('Error accessing devices:', error);
-    });
+// Khởi tạo camera
+function initializeCamera() {
+    navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            if (videoDevices.length > 0) {
+                cameras.push(...videoDevices);
+                startCamera(cameras[currentCameraIndex].deviceId);
+            } else {
+                console.error('No video devices found.');
+            }
+        })
+        .catch(error => {
+            console.error('Error accessing devices:', error);
+        });
+}
 
 function startCamera(deviceId) {
     navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: deviceId } } })
@@ -51,6 +53,8 @@ switchCameraButton.addEventListener('click', () => {
 
 // Chụp ảnh từ camera
 captureButton.addEventListener('click', () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const photoDataUrl = canvas.toDataURL('image/png');
     capturedPhoto.src = photoDataUrl;
@@ -63,3 +67,6 @@ retakeButton.addEventListener('click', () => {
     photoSection.style.display = 'none';
     cameraSection.style.display = 'block';
 });
+
+// Khởi tạo camera khi trang web được tải
+initializeCamera();
