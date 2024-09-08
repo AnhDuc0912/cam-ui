@@ -57,13 +57,21 @@
             </div>
         </div>
 
-        <!-- Phần camera sẽ ẩn đi lúc đầu và chỉ hiện khi camera được bật -->
+        <!-- Phần camera -->
         <div id="cameraSection" class="camera-section" style="display: none;">
             <button id="switch-camera" class="btn btn-secondary">Switch Camera</button>
             <video id="video" width="640" height="480" autoplay></video>
             <button id="capture" class="btn btn-primary">Capture</button>
             <canvas id="canvas" width="640" height="480"></canvas>
         </div>
+
+        <!-- Hiển thị hình ảnh đã chụp -->
+        <div id="photoSection" style="display: none;">
+            <h2>Captured Photo</h2>
+            <img id="capturedPhoto" src="" alt="Captured Photo" />
+            <button id="retake" class="btn btn-primary">Retake</button>
+        </div>
+    </div>
     </div>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
