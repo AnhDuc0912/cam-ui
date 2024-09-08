@@ -7,10 +7,18 @@ const photoSection = document.getElementById('photoSection');
 const capturedPhoto = document.getElementById('capturedPhoto');
 const retakeButton = document.getElementById('retake');
 const cameraSection = document.getElementById('cameraSection');
+const openCameraButton = document.getElementById('openCamera');
 
 let currentStream;
 let currentCameraIndex = 0;
 const cameras = [];
+let isFlashOn = false;
+
+// Mở camera khi nhấn nút mở camera
+openCameraButton.addEventListener('click', () => {
+    cameraSection.style.display = 'block';
+    initializeCamera();
+});
 
 // Khởi tạo camera
 function initializeCamera() {
@@ -67,6 +75,3 @@ retakeButton.addEventListener('click', () => {
     photoSection.style.display = 'none';
     cameraSection.style.display = 'block';
 });
-
-// Khởi tạo camera khi trang web được tải
-initializeCamera();
